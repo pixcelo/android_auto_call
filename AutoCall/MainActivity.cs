@@ -7,6 +7,7 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.FloatingActionButton;
 using Google.Android.Material.Snackbar;
+using Xamarin.Essentials;
 
 namespace AutoCall
 {
@@ -17,13 +18,30 @@ namespace AutoCall
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+
+            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-            Toolbar toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
+            // Get our UI controls from the loaded layout
+            AppCompatButton callButton = FindViewById<AppCompatButton>(Resource.Id.buttonCall);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
+            // Click event
+            callButton.Click += (sender, e) =>
+            {
+                try
+                {
+                    string target_phone_number = "***********";
+                    PhoneDialer.Open(target_phone_number);
+                    (sender as AppCompatButton).Text = "Event Done";
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message + ex.StackTrace;
+                    (sender as AppCompatButton).Text = "Unable to make call :" + msg;
+                }
+            };
+
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

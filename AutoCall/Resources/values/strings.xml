@@ -1,5 +1,6 @@
 ﻿<resources>
     <string name="app_name">AutoCall</string>
     <string name="action_settings">Settings</string>
+    <string name="buttonCall">Call</string>
 </resources>
 
